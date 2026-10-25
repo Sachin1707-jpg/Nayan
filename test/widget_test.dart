@@ -5,26 +5,31 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nayan/main.dart';
+import 'package:visionmate_ai/app.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('VisionMate AI welcome screen smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const VisionMateApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the app title is present on welcome screen.
+    expect(find.text('VisionMate AI'), findsOneWidget);
+    
+    // Verify that the Start button is present.
+    expect(find.text('Start'), findsOneWidget);
+    
+    // Tap the Start button and trigger navigation
+    await tester.tap(find.text('Start'));
+    await tester.pumpAndSettle(); // Wait for navigation animation
+    
+    // Verify that we're now on the home screen
+    expect(find.text('VisionMate AI Home'), findsOneWidget);
+    expect(find.text('Welcome to VisionMate AI'), findsOneWidget);
+    
+    // Verify key features are displayed
+    expect(find.text('Read Text'), findsOneWidget);
+    expect(find.text('Describe Surroundings'), findsOneWidget);
   });
 }
